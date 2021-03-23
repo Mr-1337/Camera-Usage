@@ -4,10 +4,13 @@ from matplotlib import pyplot
 import pprint
 
 dataset = pandas.read_excel('dataset.xlsx')
-vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?']
+vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?', 'Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?', 'How often do you participate?(on)', 'How often do you participate?(off)']
 
-def showCorrelation(variable):
-    df = pandas.DataFrame({vars[4] : lifetimeImpressions, variable.name : variable})
+def showCorrelation(variable, variable2):
+    df = pandas.DataFrame({variable2.name : variable2, variable.name : variable})
+    print('\nCorrelation:')
+    print(variable.corr(variable2, method='pearson'))
+    print('\n\n\n')
     df.plot.scatter(x=0, y=1)
     pyplot.show()
 
@@ -45,6 +48,26 @@ def printCategorical(variable):
     print(variable.describe())
     pprint.pprint(variable.value_counts().to_dict(), width=1)
 
-print(dataset[vars[0]])
-calcMetrics(dataset[vars[3]])
-printCategorical(dataset[vars[0]])
+
+#print(dataset[vars[0]])
+#calcMetrics(dataset[vars[2]])
+#dataset[vars[2]].hist()
+#pyplot.show()
+#calcMetrics(dataset[vars[3]])
+#printCategorical(dataset[vars[0]])
+#printCategorical(dataset[vars[1]])
+#dataset[vars[0]].hist()
+#pyplot.show()
+#dataset[vars[1]].hist()
+#pyplot.show()
+#printCategorical(dataset[vars[4]])
+#dataset[vars[4]].hist();
+#pyplot.show()
+#calcMetrics(dataset[vars[5]])
+#dataset[vars[5]].hist()
+#pyplot.show()
+#calcMetrics(dataset[vars[6]])
+#dataset[vars[6]].hist()
+#pyplot.show()
+
+showCorrelation(dataset[vars[6]], dataset[vars[2]])
