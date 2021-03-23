@@ -37,5 +37,12 @@ def calcMetrics(variable):
     print(outliers)
     print('\n\n\n')
 
+def printCategorical(variable):
+    print('Variable Name: ' + variable.name)
+    variable = variable.astype("category")
+    print(variable)
+
+
 print(dataset[vars[0]])
 calcMetrics(dataset[vars[3]])
+printCategorical(dataset[vars[0]])
