@@ -1,6 +1,7 @@
 import pandas
 import numpy
 from matplotlib import pyplot
+import pprint
 
 dataset = pandas.read_excel('dataset.xlsx')
 vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?']
@@ -42,7 +43,7 @@ def printCategorical(variable):
     variable = variable.astype("category")
     print(variable)
     print(variable.describe())
-    print(variable.value_counts().to_dict())
+    pprint.pprint(variable.value_counts().to_dict(), width=1)
 
 print(dataset[vars[0]])
 calcMetrics(dataset[vars[3]])
