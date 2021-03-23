@@ -1,3 +1,10 @@
+import pandas
+import numpy
+from matplotlib import pyplot
+
+dataset = pandas.read_excel('dataset.xlsx')
+vars = ['What is your major?', 'What year are you?', 'What is your age?']
+
 def showCorrelation(variable):
     df = pandas.DataFrame({vars[4] : lifetimeImpressions, variable.name : variable})
     df.plot.scatter(x=0, y=1)
@@ -32,3 +39,4 @@ def calcMetrics(variable):
     print(variable.corr(lifetimeImpressions, method='pearson'))
     print('\n\n\n')
 
+print(dataset[vars[0]])
