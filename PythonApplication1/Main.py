@@ -2,6 +2,7 @@ import pandas
 import numpy
 from matplotlib import pyplot
 import pprint
+import re
 
 dataset = pandas.read_excel('dataset.xlsx')
 vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?']
@@ -45,6 +46,30 @@ def printCategorical(variable):
     print(variable.describe())
     pprint.pprint(variable.value_counts().to_dict(), width=1)
 
-print(dataset[vars[0]])
+def countReasons(variable):
+    rows = [0,0,0,0]
+    columns = [
+        "Lecture",
+        "Office Hours",
+        "Peer Meeting",
+        "No preference"
+    ]
+    for x in variable:             
+        #check if x is valid
+        if isinstance(x, str):
+            if re.search(columns[0], x):
+                rows[0] += 1
+            if re.search(columns[1], x): 
+                rows[1] += 1
+            if re.search(columns[2], x): 
+                rows[2] += 1
+            if re.search(columns[3], x): 
+                rows[3] += 1
+    df = pandas.DataFrame(rows, columns)
+    print(df)
+    pyplot.bar(columns, rows )
+    pyplot.show()
+
 calcMetrics(dataset[vars[3]])
 printCategorical(dataset[vars[0]])
+countReasons(dataset["Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?"])
