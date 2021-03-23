@@ -41,7 +41,8 @@ def printCategorical(variable):
     print('Variable Name: ' + variable.name)
     variable = variable.astype("category")
     print(variable)
-
+    print(variable.describe())
+    print(variable.value_counts().to_dict())
 
 print(dataset[vars[0]])
 calcMetrics(dataset[vars[3]])
