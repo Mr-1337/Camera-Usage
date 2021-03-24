@@ -4,7 +4,7 @@ from matplotlib import pyplot
 import pprint
 import re
 
-dataset = pandas.read_excel('dataset.xlsx')
+dataset = pandas.read_excel('C:/Users/Jonathan/Documents/UMASS/CIS362/Proj1/Camera-Usage/PythonApplication1/dataset.xlsx')
 vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?', 'Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?', 'How often do you participate?(on)', 'How often do you participate?(off)','How often do you look at your phone or other distractions?(off)', 'How often do you look at your phone or other distractions?(on)']
 
 def showCorrelation(variable, variable2, title):
@@ -67,6 +67,8 @@ def countMeetReasons(variable):
                     rows[i] += 1
     df = pandas.DataFrame(rows, columns)
     print(df)
+    
+    pyplot.figure(figsize=(15,9))
     pyplot.bar(columns, rows)
     pyplot.title('Where Students Prefer to Turn on Their Camera')
     pyplot.xlabel('Preference')
@@ -114,6 +116,8 @@ countMeetReasons(dataset["Are you more likely to turn on your camera for a lectu
 print(dataset[vars[0]])
 calcMetrics(dataset[vars[2]])
 dataset[vars[2]].hist()
+
+pyplot.figure(figsize=(15,9))
 pyplot.title('Number of Responses Based on Age')
 pyplot.ylabel('Number of Responses')
 pyplot.xlabel('Age')
@@ -126,11 +130,15 @@ calcMetrics(dataset[vars[3]])
 printCategorical(dataset[vars[0]])
 printCategorical(dataset[vars[1]])
 dataset[vars[0]].hist()
+
+pyplot.figure(figsize=(15,9))
 pyplot.title('Number of Responses Based on Field of Study')
 pyplot.xlabel('Number of Responses')
 pyplot.ylabel('Fields of Study')
 pyplot.show()
 dataset[vars[1]].hist()
+
+pyplot.figure(figsize=(15,9))
 pyplot.title('Number of Responses Based on Year of Study')
 pyplot.xlabel('Year of Study')
 pyplot.ylabel('Number of Responses')
@@ -143,6 +151,7 @@ pyplot.show()
 #pyplot.show()
 calcMetrics(dataset[vars[5]])
 dataset[vars[5]].hist(bins=range(1,7), align='left')
+pyplot.figure(figsize=(15,9))
 pyplot.title('Frequency of Participation with Camera On')
 pyplot.xlabel('Scale: 1 = Very Infrequent Participation 5 = Very Frequent Participation')
 pyplot.ylabel("Number of Responses")
@@ -151,6 +160,7 @@ pyplot.show()
 
 calcMetrics(dataset[vars[6]])
 dataset[vars[6]].hist(bins=range(1,7), align='left')
+pyplot.figure(figsize=(15,9))
 pyplot.title('Frequency of Participation with Camera Off')
 pyplot.xlabel('Scale: 1 = Very Infrequent Participation 5 = Very Frequent Participation')
 pyplot.ylabel("Number of Responses")
@@ -159,6 +169,7 @@ pyplot.show()
 
 calcMetrics(dataset[vars[7]])
 dataset[vars[7]].hist(bins=range(1,7), align='left')
+pyplot.figure(figsize=(15,9))
 pyplot.title('Frequency of Phone Use with Camera Off')
 pyplot.xlabel('Scale: 1 = Very Infrequent Participation 5 = Very Frequent Participation')
 pyplot.ylabel("Number of Responses")
@@ -167,6 +178,7 @@ pyplot.show()
 
 calcMetrics(dataset[vars[8]])
 dataset[vars[8]].hist(bins=range(1,7), align='left')
+pyplot.figure(figsize=(15,9))
 pyplot.title('Frequency of Phone Use with Camera On')
 pyplot.xlabel('Scale: 1 = Very Infrequent Participation 5 = Very Frequent Participation')
 pyplot.ylabel("Number of Responses")
@@ -180,6 +192,7 @@ ax1.hist([y1,y2],color=['b','g'], bins=range(1,7), label=['Camera Off','Camera O
 ax1.set_xlim(1,5)
 ax1.set_ylabel("Number of Responses")
 ax1.set_xlabel("Scale: 1 = Very Phone Use 5 = Very Frequent Phone Use")
+pyplot.figure(figsize=(15,9))
 pyplot.tight_layout()
 pyplot.legend(loc='upper right')
 pyplot.xticks(ticks = (0,1,2,3,4,5,6))
