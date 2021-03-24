@@ -4,7 +4,7 @@ from matplotlib import pyplot
 import pprint
 import re
 
-dataset = pandas.read_excel('C:/Users/Jonathan/Documents/UMASS/CIS362/Proj1/Camera-Usage/PythonApplication1/dataset.xlsx')
+dataset = pandas.read_excel('dataset.xlsx')
 vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?', 'Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?', 'How often do you participate?(on)', 'How often do you participate?(off)','How often do you look at your phone or other distractions?(off)', 'How often do you look at your phone or other distractions?(on)']
 
 def showCorrelation(variable, variable2, title):
@@ -162,10 +162,23 @@ pyplot.ylabel("Number of Responses")
 pyplot.xticks(ticks = (1,2,3,4,5))
 pyplot.show()
 
+y1 = dataset[vars[6]]
+y2 = dataset[vars[5]]
+fig, ax1 = pyplot.subplots(figsize=(15,9))
+ax1.hist([y1,y2],color=['r','g'], bins=range(1,7), label=['Camera Off','Camera On'], align='left')
+ax1.set_xlim(1,5)
+ax1.set_title("Class Participation: Camera On vs. Camera Off")
+ax1.set_ylabel("Number of Responses")
+ax1.set_xlabel('Scale: 1 = Very Infrequent Participation\n 5 = Very Frequent Participation')
+pyplot.tight_layout()
+pyplot.legend(loc='upper right')
+pyplot.xticks(ticks = (0,1,2,3,4,5,6))
+pyplot.show()
+
 calcMetrics(dataset[vars[7]])
 dataset[vars[7]].hist(bins=range(1,7), align='left', figsize=(15,9))
 pyplot.title('Frequency of Phone Use with Camera Off')
-pyplot.xlabel('Scale: 1 = Very Infrequent Participation\n 5 = Very Frequent Participation')
+pyplot.xlabel("Scale: 1 = Very Rare Phone Use\n 5 = Very Frequent Phone Use")
 pyplot.ylabel("Number of Responses")
 pyplot.xticks(ticks = (1,2,3,4,5))
 pyplot.show()
@@ -173,7 +186,7 @@ pyplot.show()
 calcMetrics(dataset[vars[8]])
 dataset[vars[8]].hist(bins=range(1,7), align='left', figsize=(15,9))
 pyplot.title('Frequency of Phone Use with Camera On')
-pyplot.xlabel('Scale: 1 = Very Infrequent Participation\n 5 = Very Frequent Participation')
+pyplot.xlabel("Scale: 1 = Very Rare Phone Use\n 5 = Very Frequent Phone Use")
 pyplot.ylabel("Number of Responses")
 pyplot.xticks(ticks = (1,2,3,4,5))
 pyplot.show()
@@ -181,7 +194,7 @@ pyplot.show()
 y1 = dataset[vars[7]]
 y2 = dataset[vars[8]]
 fig, ax1 = pyplot.subplots(figsize=(15,9))
-ax1.hist([y1,y2],color=['b','g'], bins=range(1,7), label=['Camera Off','Camera On'], align='left')
+ax1.hist([y1,y2],color=['r','g'], bins=range(1,7), label=['Camera Off','Camera On'], align='left')
 ax1.set_xlim(1,5)
 ax1.set_title("Frequency of Phone Usage: Camera On vs. Camera Off")
 ax1.set_ylabel("Number of Responses")
