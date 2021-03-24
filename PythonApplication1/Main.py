@@ -57,22 +57,54 @@ def countMeetReasons(variable):
         "Peer Meeting",
         "No preference"
     ]
+    i = 0
     for x in variable:             
         #check if x is valid
         if isinstance(x, str):
-            if re.search(columns[0], x):
-                rows[0] += 1
-            if re.search(columns[1], x): 
-                rows[1] += 1
-            if re.search(columns[2], x): 
-                rows[2] += 1
-            if re.search(columns[3], x): 
-                rows[3] += 1
+            for i in range(4):                    
+                if re.search(columns[i], x):
+                    rows[i] += 1
     df = pandas.DataFrame(rows, columns)
     print(df)
-    pyplot.bar(columns, rows )
+    pyplot.bar(columns, rows)
     pyplot.show()
 
+def countNoCameraReasons(variable):
+    rows = [0,0,0,0,0,0]
+    columns = [
+        "It makes you uncomfortable",
+        "Presentation",
+        "You don't have a camera",
+        "Anxiety",
+        "I always have my camera on!",
+        "The camera is distracting"
+    ]
+    labels= [
+        "Uncomfortable",
+        "Presentation",
+        "No Camera",
+        "Anxiety",
+        "Camera Is On",
+        "Distracting"
+    ]
+    
+    for x in variable:             
+        #check if x is valid
+         if isinstance(x, str):
+            for i in range(6):                    
+                if re.search(columns[i], x):
+                    rows[i] += 1
+    df = pandas.DataFrame(rows, columns)
+    print(df)
+    pyplot.figure(figsize=(15,9))
+    pyplot.bar(columns, rows)
+    pyplot.title('Reasons For Not Turning On Webcam')
+    pyplot.ylabel('Number of Occurances')
+    pyplot.xlabel('Reason')
+    pyplot.xticks(range(6), labels)
+    pyplot.show()
+
+countNoCameraReasons(dataset["What might prevent you from turning on your camera?"])
 #countMeetReasons(dataset["Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?"])
 
 #print(dataset[vars[0]])
@@ -96,4 +128,4 @@ def countMeetReasons(variable):
 #dataset[vars[6]].hist()
 #pyplot.show()
 
-showCorrelation(dataset[vars[6]], dataset[vars[2]])
+#showCorrelation(dataset[vars[6]], dataset[vars[2]])
