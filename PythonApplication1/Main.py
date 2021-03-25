@@ -5,7 +5,19 @@ import pprint
 import re
 
 dataset = pandas.read_excel('dataset.xlsx')
-vars = ['What is your major?', 'What year are you?', 'What is your age?', 'How many live online classes are you currently taking?', 'Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?', 'How often do you participate?(on)', 'How often do you participate?(off)','How often do you look at your phone or other distractions?(off)', 'How often do you look at your phone or other distractions?(on)']
+
+
+vars = ['What is your major?', 
+        'What year are you?', 
+        'What is your age?',
+        'How many live online classes are you currently taking?', 
+        'Are you more likely to turn on your camera for a lecture office hours, or peer meeting?', 
+        'How often do you participate?(on)', 
+        'How often do you participate?(off)',
+        'How often do you look at your phone or other distractions?(off)', 
+        'How often do you look at your phone or other distractions?(on)', 
+        'Do you prefer your instructor to have their camera on or off?',
+        'Do you think turning on cameras should be mandatory?']
 
 def showCorrelation(variable, variable2, title):
     df = pandas.DataFrame({variable2.name : variable2, variable.name : variable})
@@ -18,6 +30,7 @@ def showCorrelation(variable, variable2, title):
 
 def calcMetrics(variable):
     print('Variable Name: ' + variable.name)
+    print('n = %d' % variable.size)
     print('Mean: %.3f' % variable.mean())
     print('Median: %d' % variable.median())
     print('Std dev: %.3f' % variable.std())
@@ -45,8 +58,8 @@ def calcMetrics(variable):
 
 def printCategorical(variable):
     print('Variable Name: ' + variable.name)
+    print('n = %d' % variable.size)
     variable = variable.astype("category")
-    print(variable)
     print(variable.describe())
     pprint.pprint(variable.value_counts().to_dict(), width=1)
 
@@ -59,15 +72,17 @@ def countMeetReasons(variable):
         "No preference"
     ]
     i = 0
+    total = 0
     for x in variable:             
         #check if x is valid
         if isinstance(x, str):
             for i in range(4):                    
                 if re.search(columns[i], x):
                     rows[i] += 1
+                    total += 1
     df = pandas.DataFrame(rows, columns)
     print(df)
-    
+    print(total)
     pyplot.figure(figsize=(15,9))
     pyplot.bar(columns, rows)
     pyplot.title('Where Students Prefer to Turn on Their Camera')
@@ -94,14 +109,18 @@ def countNoCameraReasons(variable):
         "Distracting"
     ]
     
+    total = 0
+
     for x in variable:             
         #check if x is valid
          if isinstance(x, str):
             for i in range(6):                    
                 if re.search(columns[i], x):
                     rows[i] += 1
+                    total += 1
     df = pandas.DataFrame(rows, columns)
     print(df)
+    print(total)
     pyplot.figure(figsize=(15,9))
     pyplot.bar(columns, rows)
     pyplot.title('Reasons For Not Turning On Webcam')
@@ -109,6 +128,13 @@ def countNoCameraReasons(variable):
     pyplot.xlabel('Reason')
     pyplot.xticks(range(6), labels)
     pyplot.show()
+
+
+printCategorical(dataset[vars[9]])
+printCategorical(dataset[vars[10]])
+dataset.groupby(vars[10]).size().plot.pie(figsize=(15, 9), autopct='%1.0f%%')
+pyplot.title('Should Cameras Be Mandatory?')
+pyplot.show()
 
 countNoCameraReasons(dataset["What might prevent you from turning on your camera?"])
 countMeetReasons(dataset["Are you more likely to turn on your camera for a lecture, office hours, or peer meeting?"])
@@ -207,3 +233,16 @@ pyplot.show()
 
 
 showCorrelation(dataset[vars[6]], dataset[vars[2]], 'Camera Off Participation Correlated to Respondent\'s Age')
+showCorrelation(dataset[vars[7]], dataset[vars[2]], 'Camera Off Phone Use Correlated to Respondent\'s Age')
+showCorrelation(dataset[vars[6]], dataset[vars[7]], 'Camera Off Participation vs Phone Use')
+
+
+group = dataset.groupby('What year are you?')['How do you think having your camera on during lectures affects your performance in class?'].mean()
+
+group2 = dataset.groupby('Which of the following most accurately describes you?')['How do you think having your camera on during lectures affects your performance in class?'].mean()
+
+group3 = dataset.groupby('What is your major?')['How do you think having your camera on during lectures affects your performance in class?'].mean()
+
+print(group)
+print(group2)
+print(group3)
